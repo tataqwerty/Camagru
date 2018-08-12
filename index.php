@@ -1,17 +1,12 @@
 <?php
-	ini_set('display_errors', E_ALL);
+	session_start();
 
-	function debug($var) {
-		echo '<pre>';
-		var_dump($var);
-		echo '</pre>';
-	}
+	ini_set('display_errors', 'on');
+	define('ROOT', __DIR__ . '/');
+	require ROOT . 'app/src/staff.php';
+	require ROOT . 'app/config/database.php';
+	require ROOT . 'app/src/core/db.php';
+	require ROOT . 'app/src/router.php';
 
-	define('ROOT', dirname(__FILE__));
-	require_once (ROOT.'/app/components/Router.class.php');
-	require_once (ROOT.'/app/components/DB.class.php');
-
-	$router = new Router;
-	
-	$router->run();
+	router();
 ?>
