@@ -1,4 +1,6 @@
 <?php
+	check_auth('/main/index', CHECK_LOGGED_OUT);
+
 	function index() {
 		$title = 'Login Page';
 		if (isset($_SESSION['error']))
@@ -7,17 +9,14 @@
 			unset($_SESSION['error']);
 		}
 		$content_view = 'view_login';
-		require ROOT . 'app/views/templates/template_auth.php';
+		require ROOT . 'app/views/templates/template_view.php';
 	}
 
 	function match_found_in_db($username, $password) {
-		$users = get_users();
+		$user = get_user_by_name($username);
 
-		foreach($users as $user)
-		{
-			if ($user['username'] == $username)
-				return (($user['password'] == $password) ? 1 : 0);
-		}
+		if ($user && $user['password'] == $password)
+			return (1);
 		return (0);
 	}
 
@@ -28,7 +27,7 @@
 			error_redirect('Error: not enough data.', '/login/index');
 		else
 		{
-			$username = $_POST['username'];
+			$username = strtolower($_POST['username']);
 			$password = hash('whirlpool', $_POST['password']);
 
 			if (match_found_in_db($username, $password))

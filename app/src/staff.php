@@ -1,10 +1,11 @@
 <?php
-	function check_auth() {
-		if ($_SERVER['logged_in_user'] == "")
-		{
-			$host = 'http://' . $_SERVER['HTTP_HOST'] . '/login/index';
-			header('Location: ' . $host);
-		}
+	function check_auth($url, $flag) {
+		$logged_in = (isset($_SESSION['logged_in_user'])) ? 1 : 0;
+
+		if (!$logged_in && $flag == CHECK_LOGGED_IN)
+			redirect($url);
+		else if ($logged_in && $flag == CHECK_LOGGED_OUT)
+			redirect($url);
 	}
 
 	function debug($var) {

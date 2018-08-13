@@ -1,4 +1,6 @@
 <?php
+	check_auth('/main/index', CHECK_LOGGED_OUT);
+
 	function index() {
 		$title = 'Register Page';
 		if (isset($_SESSION['error']))
@@ -7,25 +9,31 @@
 			unset($_SESSION['error']);
 		}
 		$content_view = 'view_register';
-		require ROOT . 'app/views/templates/template_auth.php';
+		require ROOT . 'app/views/templates/template_view.php';
 	}
 
-	function check_username($username) {
-		$users = get_users();
+	function send_activation_link($email) {
+		$user = get_user_by_email($email);
 
-		foreach($users as $user)
-			if ($user['username'] == $username)
-				return (0);
-		return (1);
+		if ($user)
+		{
+			$link = 'http://' . $_SERVER['HTTP_HOST'] . '/register/activate/' . $user['id'];
+			$subject = 'Account activation';
+			$content = '<a href="' . $link . '">ACTIVATE</a>\r\n';
+			$from = 'FROM Camagru team\r\n';
+
+			mail($email, $subject, $content, $from);
+		}
 	}
 
-	function check_email($email) {
-		$users = get_users();
+	function activate($id) {
+		echo 'Activation';
+	}
 
-		foreach($users as $user)
-			if ($user['email'] == $email)
-				return (0);
-		return (1);	
+	function activation_time() {
+		$title = 'Pre activation';
+		$content_view = 'view_pre_activation';
+		require ROOT . 'app/views/templates/template_view.php';
 	}
 
 	function check() {
@@ -35,18 +43,19 @@
 			error_redirect('Error: not enough data.', '/register/index');
 		else
 		{
-			$email = $_POST['email'];
-			$username = $_POST['username'];
+			$email = strtolower($_POST['email']);
+			$username = strtolower($_POST['username']);
 			$password = hash('whirlpool', $_POST['password']);
 
-			if (!check_email($email))
+			if (!match_email($email))
 				error_redirect('Error: such email already exists', '/register/index');
-			else if (!check_username($username))
+			else if (!match_username($username))
 				error_redirect('Error: such username already exists', '/register/index');
 			else
 			{
-				add_user($email, $username, $password);
-				redirect('/login/index');
+				add_user_to_db($email, $username, $password);
+				send_activation_link($email);
+				redirect('/register/activation_time');
 			}
 		}
 	}

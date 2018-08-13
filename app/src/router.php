@@ -36,9 +36,6 @@
 	function router() {
 		extract(getRoute());
 
-		if ($module != 'login' && $module != 'register')
-			check_auth();
-
 		$module_file = ROOT . 'app/src/modules/' . $module . '.php';
 		if (file_exists($module_file))
 			require $module_file;
