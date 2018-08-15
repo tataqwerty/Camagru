@@ -1,3 +1,39 @@
-header, footer {
-	border: 1px solid #000;
+html, body {
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+.header {
+	background-color: #ccc;
+	color: #007bff;
+}
+
+.nav li {
+	display: block;
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
+
+.nav .btn:hover {
+	background-color: #eee;
+	border-radius: 0;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+}
+
+.logo {
+	text-align: center;
+	height: 100%;
+}
+
+.logo h4 {
+	display: block;
+	line-height: 1.4;
+	height: 100%;
+	margin-bottom: 0;
 }

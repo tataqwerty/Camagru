@@ -9,11 +9,10 @@
 		$query_drop_db = 'DROP DATABASE IF EXISTS `camagru`;';
 		$query_create_db = 'CREATE DATABASE `camagru`;';
 		$query_create_table_users = 'CREATE TABLE camagru.users (
-			`id` int NOT NULL AUTO_INCREMENT,
-			`email` varchar(255),
-			`username` varchar(255),
-			`password` varchar(255),
-			PRIMARY KEY (`id`)
+			`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			`email` varchar(256) NOT NULL,
+			`username` varchar(256) NOT NULL,
+			`password` varchar(256) NOT NULL
 		);';
 
 		$db->query($query_drop_db);

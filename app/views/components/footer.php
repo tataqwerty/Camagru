@@ -1,7 +1,9 @@
-<footer>
-	<div class="copyright">
-		<p>
-			Lorem ipsum dolor sit amet, consectetur adipisicing.
-		</p>
+<div class="footer container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-4">
+			<p>
+				By Tataqwerty
+			</p>
+		</div>
 	</div>
-</footer>
+</div>

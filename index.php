@@ -1,15 +1,31 @@
 <?php
-	session_start();
+	namespace Core;
 
 	ini_set('display_errors', 'on');
-	define('ROOT', __DIR__ . '/');
-	define('CHECK_LOGGED_IN', 1);
-	define('CHECK_LOGGED_OUT', 2);
-	$style_link = '/app/resources/styles/style.css';
-	require ROOT . 'app/src/staff.php';
-	require ROOT . 'app/config/database.php';
-	require ROOT . 'app/src/core/db.php';
-	require ROOT . 'app/src/router.php';
 
-	router();
+	session_start();
+
+	define('ROOT', __DIR__ . '/');
+
+	spl_autoload_register(function($className) {
+		$segments = explode('\\', $className);
+		if (!$segments)
+			$segments = array_push($className); // In order to pop this element on the next line.
+		$className = array_pop($segments);
+
+		foreach ($segments as &$segment)
+			$segment = strtolower($segment);
+		
+		if ($segments)
+			$pathToClass = implode($segments, '/') . '/';
+		else
+			$pathToClass = "";
+
+		// echo $pathToClass;
+		// echo $className;
+
+		require ROOT . 'app/' . $pathToClass . $className . '.class.php';
+	});
+
+	Router::go();
 ?>
