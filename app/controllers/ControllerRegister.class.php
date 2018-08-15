@@ -2,6 +2,7 @@
 	namespace Controllers;
 
 	use Core\Controller as Controller;
+	use Core\View as View;
 	use Models\ModelUser as ModelUser;
 	use Models\ModelRegister as ModelRegister;
 
