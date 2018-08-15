@@ -1,5 +1,5 @@
 <?php
-	namespace Core;
+	use Core\Router as Router;
 
 	ini_set('display_errors', 'on');
 
@@ -20,12 +20,10 @@
 			$pathToClass = implode($segments, '/') . '/';
 		else
 			$pathToClass = "";
-
-		// echo $pathToClass;
-		// echo $className;
-
 		require ROOT . 'app/' . $pathToClass . $className . '.class.php';
 	});
+
+	require ROOT . 'app/helpers/helpers.php';
 
 	Router::go();
 ?>

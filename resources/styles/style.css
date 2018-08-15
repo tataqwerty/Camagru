@@ -9,14 +9,14 @@ html, body {
 	color: #007bff;
 }
 
-.nav li {
+.menu_item {
 	display: block;
 	margin: 0;
 	padding: 0;
 	text-align: right;
 }
 
-.nav .btn:hover {
+.menu .btn:hover {
 	background-color: #eee;
 	border-radius: 0;
 }

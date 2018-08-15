@@ -2,8 +2,9 @@
 	namespace Core;
 
 	class Controller {
-		private $model;
-
+		public $model;
+		public $view;
+		
 		function actionIndex() {
 		}
 	}

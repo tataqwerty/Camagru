@@ -8,20 +8,7 @@
 			</div>
 		</div>
 		<div class="col">
-
 			<?php echo $menu; ?>
-
-
-
-			<?php foreach($nav as $item): ?>
-				<li class="col-auto">
-					<a href="<?php echo $item['link']; ?>" class="btn">
-						<?php echo $item['content']; ?>
-					</a>
-				</li>
-			<?php endforeach; ?>
-
-			</ul>
 		</div>
 	</div>
 </div>
