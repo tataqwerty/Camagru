@@ -20,5 +20,10 @@
 	</div>
 
 	<?php require ROOT . 'components/views/footer.php'; ?>
+
+	<?php require ROOT . 'components/views/connect_popup.php'; ?>
+
+	<!-- Add some javascript -->
+	<script src="/resources/js/connect_popup.js"></script>
 </body>
 </html>

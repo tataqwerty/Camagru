@@ -2,8 +2,7 @@
 	return [
 		'logged-out' => [
 			'/main/index' => 'Home',
-			'/login/index' => 'Login',
-			'/register/index' => 'Register'
+			'#connect_popup' => 'Connect'
 		],
 		'logged-in' => [
 			'/main/index' => 'Home',
