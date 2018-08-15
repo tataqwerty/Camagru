@@ -4,9 +4,9 @@
 	use Core\Model as Model;
 	use Models\ModelPage as ModelPage;
 
-	class ModelMain extends Model {
+	class ModelRegister extends Model {
 		function getIndexData() {
-			$data = ModelPage::getInitPageData('Main page');
+			$data = ModelPage::getInitPageData('Register Page');
 			return ($data);
 		}
 	}

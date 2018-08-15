@@ -10,13 +10,15 @@
 	<link rel="stylesheet" href="/resources/styles/style.css">
 </head>
 <body>
-	<?php require ROOT . 'app/components/views/header.php'; ?>
+	<?php require ROOT . 'components/views/header.php'; ?>
 
 	<!-- Main content -->
-	<div class="container">
-		<?php require ROOT . 'app/components/views/' . $contentView . '.php'; ?>
+	<div class="container justify-content-center">
+		<div class="row">
+			<?php require ROOT . 'components/views/' . $contentView . '.php'; ?>
+		</div>
 	</div>
 
-	<?php require ROOT . 'app/components/views/footer.php'; ?>
+	<?php require ROOT . 'components/views/footer.php'; ?>
 </body>
 </html>

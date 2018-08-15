@@ -2,7 +2,7 @@
 	namespace Helpers;
 
 	function findRoute($uri) {
-		$routes = require ROOT . 'app/config/routes.php';
+		$routes = require ROOT . 'config/routes.php';
 		$route = "";
 
 		foreach ($routes as $pattern => $path) {

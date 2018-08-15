@@ -4,9 +4,15 @@ html, body {
 	overflow: hidden;
 }
 
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
 .header {
-	background-color: #ccc;
-	color: #007bff;
+	background-color: #6c757d;
+	color: #fff;
 }
 
 .menu_item {
@@ -16,9 +22,12 @@ html, body {
 	text-align: right;
 }
 
-.menu .btn:hover {
-	background-color: #eee;
+.menu .btn {
 	border-radius: 0;
+}
+
+.menu .btn:hover {
+	cursor: pointer;
 }
 
 .footer {
@@ -36,4 +45,20 @@ html, body {
 	line-height: 1.4;
 	height: 100%;
 	margin-bottom: 0;
+}
+
+.form {
+	width: 300px;
+	border: 1px solid #ccc;
+	padding: 25px;
+	margin-top: 50px;
+}
+
+.form input {
+	width: 100%;
+	display: block;
+}
+
+.form .btn {
+	margin-top: 20px;
 }

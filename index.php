@@ -5,7 +5,7 @@
 
 	session_start();
 
-	define('ROOT', __DIR__ . '/');
+	define('ROOT', __DIR__ . '/app/');
 
 	spl_autoload_register(function($className) {
 		$segments = explode('\\', $className);
@@ -20,10 +20,10 @@
 			$pathToClass = implode($segments, '/') . '/';
 		else
 			$pathToClass = "";
-		require ROOT . 'app/' . $pathToClass . $className . '.class.php';
+		require ROOT . $pathToClass . $className . '.class.php';
 	});
 
-	require ROOT . 'app/helpers/helpers.php';
+	require ROOT . 'helpers/helpers.php';
 
 	Router::go();
 ?>

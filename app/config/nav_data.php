@@ -1,14 +1,14 @@
 <?php
 	return [
-		'logged-in' => [
-			'Home' => '/main/index',
-			'Login' => '/login/index',
-			'Register' => '/register/index'
-		],
 		'logged-out' => [
-			'Home' => '/main/index',
-			'Profile' => '/profile/index',
-			'Logout' => '/logout/index/'
+			'/main/index' => 'Home',
+			'/login/index' => 'Login',
+			'/register/index' => 'Register'
+		],
+		'logged-in' => [
+			'/main/index' => 'Home',
+			'/profile/index' => 'Profile',
+			'/logout/index/' => 'Logout'
 		]
 	];
 ?>
