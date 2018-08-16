@@ -10,6 +10,8 @@
 	<link rel="stylesheet" href="/resources/styles/style.css">
 </head>
 <body>
+	<?php require ROOT . 'components/views/error_handler.php'; ?>
+
 	<?php require ROOT . 'components/views/header.php'; ?>
 
 	<!-- Main content -->

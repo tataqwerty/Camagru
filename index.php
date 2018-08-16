@@ -24,6 +24,7 @@
 	});
 
 	require ROOT . 'helpers/helpers.php';
+	require ROOT . 'config/database.php';
 
 	Router::go();
 ?>

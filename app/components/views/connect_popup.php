@@ -19,12 +19,12 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
-							<form class="popup_form popup_form--active" id="login_form" action="/auth/loginCheck" method="POST">
+							<form class="popup_form popup_form--active" id="login_form" action="/login/check" method="POST">
 								<div class="form-group">
-									<input type="text" name="username" class="form-control" placeholder="Username">
+									<input type="text" name="username" class="form-control" placeholder="Username" required>
 								</div>
 								<div class="form-group">
-									<input type="password" name="password" class="form-control" placeholder="Password">
+									<input type="password" name="password" class="form-control" placeholder="Password" required>
 								</div>
 								<div class="form-group">
 									<div class="row justify-content-center">
@@ -37,24 +37,24 @@
 								<div class="form-group">
 									<div class="row">
 										<div class="col">
-											<div class="text-center">	<a href="/auth/passwordReset" class="forgot-password">Forgot Password?</a>
+											<div class="text-center">	<a href="/password/reset" class="forgot-password">Forgot Password?</a>
 											</div>
 										</div>
 									</div>
 								</div>
 							</form>
-							<form class="popup_form" id="register_form" action="/auth/registerCheck" method="POST">
+							<form class="popup_form" id="register_form" action="/register/check" method="POST">
 								<div class="form-group">
-									<input type="text" name="username" class="form-control" placeholder="Username">
+									<input type="text" name="username" class="form-control" placeholder="Username" required>
 								</div>
 								<div class="form-group">
-									<input type="email" name="email" class="form-control" placeholder="Email Address">
+									<input type="email" name="email" class="form-control" placeholder="Email Address" required>
 								</div>
 								<div class="form-group">
-									<input type="password" name="password" class="form-control" placeholder="Password">
+									<input type="password" name="password" class="form-control" placeholder="Password" required>
 								</div>
 								<div class="form-group">
-									<input type="password" name="confirm-password" class="form-control" placeholder="Confirm Password">
+									<input type="password" name="confirm-password" class="form-control" placeholder="Confirm Password" required>
 								</div>
 								<div class="form-group">
 									<div class="row justify-content-center">
