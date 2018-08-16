@@ -5,6 +5,6 @@
 	{
 		setTimeout(() => {
 			alertHandler.classList.add('alert--hide');
-		}, 1000);
+		}, 3000);
 	}
 })();

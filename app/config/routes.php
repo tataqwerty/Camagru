@@ -1,8 +1,8 @@
 <?php
 	return [
-		'login/check' => '/auth/loginCheck',
-		'register/check' => '/auth/registerCheck',
-		'password/reset' => '/auth/passwordReset',
+		'login/index' => '/user/login',
+		'register/index' => '/user/register',
+		'password/reset' => '/user/passwordReset',
 		'main/index' => '/main/index',
 		'main' => '/main/index',
 		'' => '/main/index'

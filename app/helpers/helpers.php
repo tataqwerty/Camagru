@@ -37,8 +37,8 @@
 	}
 
 	function showErrorMessage($msg) {
-		$_SESSION['msg'] = $msg;
-		$_SESSION['msgColor'] = 'danger';
+		$_SESSION['alertMsg'] = $msg;
+		$_SESSION['alertColor'] = 'danger';
 	}
 
 	function showMessage($msg) {

@@ -3,26 +3,25 @@
 
 	use Core\Controller as Controller;
 	use Core\View as View;
-	use Models\ModelAuth as ModelAuth;
+	use Models\ModelUser as ModelUser;
 
-	class ControllerAuth extends Controller {
+	class ControllerUser extends Controller {
 		function __construct() {
 			$this->view = new View;
-			$this->model = new ModelAuth;
+			$this->model = new ModelUser;
 		}
 
-		function actionLoginCheck() {
+		function actionLogin() {
 			$this->model->login();
 			\Helpers\redirect('/main/index');
 		}
 
-		function actionRegisterCheck() {
+		function actionRegister() {
 			$this->model->register();
 			\Helpers\redirect('/main/index');
 		}
 
 		function actionPasswordReset() {
-
 		}
 	}
 ?>

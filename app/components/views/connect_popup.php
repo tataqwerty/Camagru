@@ -19,12 +19,12 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
-							<form class="popup_form popup_form--active" id="login_form" action="/login/check" method="POST">
+							<form class="popup_form popup_form--active" id="login_form" action="/login/index" method="POST">
 								<div class="form-group">
-									<input type="text" name="username" class="form-control username_input" placeholder="Username" required>
+									<input type="text" name="username" class="form-control username_input" placeholder="Username" pattern="^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+$" required>
 								</div>
 								<div class="form-group">
-									<input type="password" name="password" class="form-control password_input" placeholder="Password" required>
+									<input type="password" name="password" class="form-control password_input" placeholder="Password" pattern="^\w{8,20}$" required>
 								</div>
 								<div class="form-group">
 									<div class="row justify-content-center">
@@ -43,18 +43,18 @@
 									</div>
 								</div>
 							</form>
-							<form class="popup_form" id="register_form" action="/register/check" method="POST">
+							<form class="popup_form" id="register_form" action="/register/index" method="POST">
 								<div class="form-group">
-									<input type="text" name="username" class="form-control" placeholder="Username" required>
+									<input type="text" name="username" class="form-control" placeholder="Username" pattern="^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+$" required>
 								</div>
 								<div class="form-group">
-									<input type="email" name="email" class="form-control" placeholder="Email Address" required>
+									<input type="email" name="email" class="form-control" placeholder="Email Address" pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*" required>
 								</div>
 								<div class="form-group">
-									<input type="password" name="password" class="form-control" placeholder="Password" required>
+									<input type="password" name="password" class="form-control" placeholder="Password" pattern="^\w{8,20}$" required>
 								</div>
 								<div class="form-group">
-									<input type="password" name="confirm-password" class="form-control" placeholder="Confirm Password" required>
+									<input type="password" name="confirm-password" class="form-control" placeholder="Confirm Password" pattern="^\w{8,20}$" required>
 								</div>
 								<div class="form-group">
 									<div class="row justify-content-center">
