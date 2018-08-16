@@ -7,7 +7,7 @@
 	class ModelAuth extends Model {
 		function login() {
 			if (!isset($_POST['submit']) || !isset($_POST['username']) || !isset($_POST['password']))
-				$_SESSION['error'] = 'Missed some inputs!';
+				\Helpers\showErrorMessage('ERROR: Missed some inputs!');
 			else
 			{
 				$username = strtolower($_POST['username']);
@@ -15,9 +15,26 @@
 
 				$user = DB::getUserByUsername($username);
 				if ($user && $user['password'] == $password)
+				{
 					$_SESSION['logged_in_user'] = $username;
+					\Helpers\showMessage("You're now logged-in!");
+				}
 				else
-					$_SESSION['error'] = 'Invalid username or password!';
+					\Helpers\showErrorMessage('ERROR: Invalid username or password!');
+			}
+		}
+
+		function register() {
+			if (!isset($_POST['submit']) || !isset($_POST['username']) || !isset($_POST['email']) || !isset($_POST['password']) || !isset($_POST['confirm-password']))
+				\Helpers\showErrorMessage('ERROR: Missed some inputs!');
+			else
+			{
+				$username = strtolower($_POST['username']);
+				$username = strtolower($_POST['email']);
+				$password = strtolower($_POST['password']);
+				$passwordConfirm = strtolower($_POST['passwordConfirm']);
+
+				
 			}
 		}
 	}

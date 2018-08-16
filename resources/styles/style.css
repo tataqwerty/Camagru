@@ -172,5 +172,10 @@ ul {
 	top: 0;
 	left: 0;
 	z-index: 1;
-	width: 100%
+	width: 100%;
+	transition: 1s;
+}
+
+.alert--hide {
+	top: -500px;
 }

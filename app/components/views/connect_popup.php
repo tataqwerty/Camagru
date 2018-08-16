@@ -21,10 +21,10 @@
 						<div class="col">
 							<form class="popup_form popup_form--active" id="login_form" action="/login/check" method="POST">
 								<div class="form-group">
-									<input type="text" name="username" class="form-control" placeholder="Username" required>
+									<input type="text" name="username" class="form-control username_input" placeholder="Username" required>
 								</div>
 								<div class="form-group">
-									<input type="password" name="password" class="form-control" placeholder="Password" required>
+									<input type="password" name="password" class="form-control password_input" placeholder="Password" required>
 								</div>
 								<div class="form-group">
 									<div class="row justify-content-center">

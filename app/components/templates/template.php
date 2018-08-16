@@ -10,7 +10,7 @@
 	<link rel="stylesheet" href="/resources/styles/style.css">
 </head>
 <body>
-	<?php require ROOT . 'components/views/error_handler.php'; ?>
+	<?php require ROOT . 'components/views/alert_handler.php'; ?>
 
 	<?php require ROOT . 'components/views/header.php'; ?>
 
@@ -27,5 +27,6 @@
 
 	<!-- Add some javascript -->
 	<script src="/resources/js/connect_popup.js"></script>
+	<script src="/resources/js/alert_handler.js"></script>
 </body>
 </html>

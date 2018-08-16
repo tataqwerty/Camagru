@@ -35,4 +35,14 @@
 		var_dump($var);
 		echo '</pre>';
 	}
+
+	function showErrorMessage($msg) {
+		$_SESSION['msg'] = $msg;
+		$_SESSION['msgColor'] = 'danger';
+	}
+
+	function showMessage($msg) {
+		$_SESSION['alertMsg'] = $msg;
+		$_SESSION['alertColor'] = 'success';
+	}
 ?>

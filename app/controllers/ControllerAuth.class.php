@@ -17,7 +17,8 @@
 		}
 
 		function actionRegisterCheck() {
-
+			$this->model->register();
+			\Helpers\redirect('/main/index');
 		}
 
 		function actionPasswordReset() {
