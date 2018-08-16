@@ -6,19 +6,18 @@ var popupBtns = document.querySelectorAll('.popup_btn');
 var popupForms = document.querySelectorAll('.popup_form');
 
 connectBtn.addEventListener('click', (e) => {
-		popup.style.display = 'block';
+	e.preventDefault();
+	popup.classList.add('connect_popup--show');
 });
 
-closeBtn.addEventListener('click', (e) => {
-	popup.style.display = 'none';
-});
+closeBtn.addEventListener('click', () => popup.classList.remove('connect_popup--show'));
 
 popupBtns.forEach((popupBtn) => {
 	popupBtn.addEventListener('click', (e) => {
 		popupBtns.forEach((popupBtn) => popupBtn.classList.remove('active'));
-		popupForms.forEach((popupForm) => popupForm.style.display = 'none');
+		popupForms.forEach((popupForm) => popupForm.classList.remove('popup_form--active'));
 		e.target.classList.add('active');
-		popup.querySelector(e.target.dataset.target).style.display = 'block';
+		popup.querySelector(e.target.dataset.target).classList.add('popup_form--active');
 	});
 });
 })();

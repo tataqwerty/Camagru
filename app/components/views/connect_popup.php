@@ -1,6 +1,6 @@
-<div class="container connect_popup" style="display: none;">
+<div class="container connect_popup">
 	<div class="row justify-content-center">
-		<div class="col-6">
+		<div class="col-10 col-sm-8 col-md-6">
 			<div class="card card-login">
 				<div class="card-header">
 					<div class="row">
@@ -19,7 +19,7 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
-							<form class="popup_form" id="login_form" action="/auth/loginCheck" method="POST" style="display: block;">
+							<form class="popup_form popup_form--active" id="login_form" action="/auth/loginCheck" method="POST">
 								<div class="form-group">
 									<input type="text" name="username" class="form-control" placeholder="Username">
 								</div>
@@ -43,8 +43,7 @@
 									</div>
 								</div>
 							</form>
-							<form class="popup_form" id="register_form" action="/auth/registerCheck" method="POST"
-							style="display: none;">
+							<form class="popup_form" id="register_form" action="/auth/registerCheck" method="POST">
 								<div class="form-group">
 									<input type="text" name="username" class="form-control" placeholder="Username">
 								</div>
