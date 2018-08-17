@@ -28,5 +28,6 @@
 	<!-- Add some javascript -->
 	<script src="/resources/js/connect_popup.js"></script>
 	<script src="/resources/js/alert_handler.js"></script>
+	<script src="/resources/js/verification_handler.js"></script>
 </body>
 </html>

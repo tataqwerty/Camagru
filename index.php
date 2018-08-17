@@ -7,7 +7,7 @@
 
 	define('ROOT', __DIR__ . '/app/');
 	define('VERIFIED', 1);
-	define('UNVERIFED', 0);
+	define('UNVERIFIED', 0);
 
 	spl_autoload_register(function($className) {
 		$segments = explode('\\', $className);

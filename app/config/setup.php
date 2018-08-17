@@ -12,7 +12,9 @@
 			`id` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			`email` varchar(256) NOT NULL,
 			`username` varchar(256) NOT NULL,
-			`password` varchar(256) NOT NULL
+			`password` varchar(256) NOT NULL,
+			`activationKey` char(32) NOT NULL,
+			`status` char(1)
 		);';
 
 		$db->query($query_drop_db);

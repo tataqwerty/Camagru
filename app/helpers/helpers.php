@@ -8,7 +8,7 @@
 		foreach ($routes as $pattern => $path) {
 			if (preg_match('#^' . $pattern . '$#', $uri))
 			{
-				$route = $path;
+				$route = preg_replace('#^' . $pattern . '$#', $path, $uri);
 				break ;
 			}
 		}

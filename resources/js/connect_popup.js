@@ -1,7 +1,7 @@
 (() => {
 	var connectBtn = document.querySelector('.connect_btn');
-	var closeBtn = document.querySelector('.popup_close_btn');
 	var popup = document.querySelector('.connect_popup');
+	var closeBtn = popup.querySelector('.popup_close_btn');
 	var popupBtns = document.querySelectorAll('.popup_btn');
 	var popupForms = document.querySelectorAll('.popup_form');
 
@@ -17,7 +17,7 @@
 			popupBtns.forEach((popupBtn) => popupBtn.classList.remove('active'));
 			popupForms.forEach((popupForm) => popupForm.classList.remove('popup_form--active'));
 			e.target.classList.add('active');
-			popup.querySelector(e.target.dataset.target).classList.add('popup_form--active');
+			popup.querySelector(e.target.dataset.target).parentNode.classList.add('popup_form--active');
 		});
 	});
 })();

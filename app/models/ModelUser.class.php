@@ -11,7 +11,12 @@
 			return (0);
 		}
 
+		function logout() {
+			unset($_SESSION['logged_in_user']);
+		}
+
 		function login() {
+			global $DB_USERS;
 			if (!isset($_POST['submit']) || !isset($_POST['username']) || !isset($_POST['password']))
 				\Helpers\showErrorMessage('ERROR: Missed some inputs!');
 			else
@@ -19,8 +24,9 @@
 				$username = strtolower($_POST['username']);
 				$password = $_POST['password'];
 
-				$user = DB::getDataWhereFrom('camagru.users', '*', '`username`', $username);
-				if ($user && $user['password'] == $password)	// ATTENTION: Needs to be hashed!!!!!!
+				$user = DB::getRowData($DB_USERS, '*', 'username', $username);
+
+				if ($user && $user['password'] == $password && $user['status'] == VERIFIED)	// ATTENTION: Needs to be hashed!!!!!!
 				{
 					$_SESSION['logged_in_user'] = $username;
 					\Helpers\showMessage("You're now logged-in!");
@@ -30,65 +36,135 @@
 			}
 		}
 
-		private function sendMail($email, $subject, $message) {
+		function sendMail($email, $subject, $message) {
 			$encoding = "utf-8";
 
-			// Set preferences for Subject field
-			$subject_preferences = array(
-				"input-charset" => $encoding,
-				"output-charset" => $encoding,
-				"line-length" => 76,
-				"line-break-chars" => "\r\n"
-			);
+			// // Set preferences for Subject field
+			// $subjectPreferences = array(
+			// 	"input-charset" => $encoding,
+			// 	"output-charset" => $encoding,
+			// 	"line-length" => 76,
+			// 	"line-break-chars" => "\r\n"
+			// );
 
-			// Set mail header
-			$header = "Content-type: text/html; charset=".$encoding." \r\n";
-			$header .= "From: ".$from_name." <".$from_mail."> \r\n";
-			$header .= "MIME-Version: 1.0 \r\n";
-			$header .= "Content-Transfer-Encoding: 8bit \r\n";
-			$header .= "Date: ".date("r (T)")." \r\n";
-			$header .= iconv_mime_encode("Subject", $mail_subject, $subject_preferences);
+			// // Set mail header
+			// $header = "Content-type: text/html; charset=".$encoding." \r\n";
+			// $header .= "From: Camagru admin <tarasik2000@gmail.com> \r\n";
+			// $header .= "MIME-Version: 1.0 \r\n";
+			// $header .= "Content-Transfer-Encoding: 8bit \r\n";
+			// $header .= "Date: ".date("r (T)")." \r\n";
+			// $header .= iconv_mime_encode("Subject", $subject, $subjectPreferences);
 
-			// Send mail
-			mail($email, $subject, $message, $header);
+			mail($email, $subject, $message);
 		}
 
-		private function acceptUser($email, $username, $password) {
-			$activationKey = md5($email . time());
-			DB::addUserToDB($email, $username, $password, $activationKey);
+		function sendVerificationKey() {
+			global $DB_USERS;
+			$email = (isset($_POST['email'])) ? $_POST['email'] : "";
 
-			$subject = 'Activate your account';
-			$message = 'Click http://' . $_SERVER['HTTP_HOST'] . '/' . $activationKey . ' to activate your account!';
-			
-			$this->sendMail($email, $subject, $message);
-			\Helpers\showMessage("You've just registered! Check your email to activate your account!");
+			$user = DB::getRowData($DB_USERS, 'status, activationKey', 'email', $email);
+
+			if ($user && $user['status'] == VERIFIED)
+				\Helpers\showErrorMessage('Your are already verified');
+			else if ($user)
+			{
+				$subject = 'Activate your account';
+				$message = 'Click http://' . $_SERVER['HTTP_HOST'] . '/verify/' . $user['activationKey'] . ' to activate your account!';
+				$this->sendMail($email, $subject, $message);
+				\Helpers\showMessage("Please, check your email to activate your account!");
+			}
+			else
+				\Helpers\showErrorMessage('ERROR: there are not user with such email!');
+		}
+
+		/*
+		** Function that adds user to database + genereates activation key especially to user + send an email
+		** with this activation key.
+		*/
+		private function acceptUser($email, $username, $password) {
+			global $DB_USERS;
+			$activationKey = md5($email . time());
+
+			$values = [
+				'email' => $email,
+				'username' => $username,
+				'password' => $password,
+				'activationKey' => $activationKey,
+				'status' => UNVERIFIED
+			];
+
+			DB::insertRowData($DB_USERS, $values);
+
+			if ($this->sendVerificationKey())
+				\Helpers\showMessage("Please, check your email to activate your account!");
+			else
+				\Helpers\showErrorMessage('ERROR: there are not user with such email!');
 		}
 
 		function register() {
+			global $DB_USERS;
 			if (!isset($_POST['submit']) || !isset($_POST['username']) || !isset($_POST['email']) || !isset($_POST['password']) || !isset($_POST['confirm-password']))
+			{
 				\Helpers\showErrorMessage('ERROR: Missed some inputs!');
+				return (0);
+			}
 			else
 			{
 				$username = strtolower($_POST['username']);
 				$email = strtolower($_POST['email']);
 				$password = $_POST['password'];
-				$passwordConfirm = $_POST['passwordConfirm'];
+				$passwordConfirm = $_POST['confirm-password'];
 
-				$user = DB::getDataWhereFrom('camagru.users', '*', '`username`', $username);
+				/*
+				** Check whether certain username is free or not.
+				*/
+				$user = DB::getRowData($DB_USERS, '*', 'username', $username);
 				if ($user)
+				{
 					\Helpers\showErrorMessage('ERROR: such user already exists!');
+					return (0);
+				}
 
-				$user = DB::getDataWhereFrom('camagru.users', '*', '`email`', $email);
+				/*
+				** Check whether certain email is free or not.
+				*/
+				$user = DB::getRowData($DB_USERS, '*', 'email', $email);
 				if ($user)
+				{
 					\Helpers\showErrorMessage('ERROR: such email already exists!');
+					return (0);
+				}
 
+				/*
+				** Check whether passwords are equal.
+				*/
 				if ($password != $passwordConfirm)
+				{
 					\Helpers\showErrorMessage('ERROR: passwords are not equal!');
+					return (0);
+				}
 
-				// Add new user here + send verification email to user.
-
+				/*
+				** Add user to database + send an verification email to user.
+				*/
 				$this->acceptUser($email, $username, $password);	// PASSWORD NEEDS TO BE HASHED
+				return (1);
 			}
+		}
+
+		function verify($key) {
+			global $DB_USERS;
+			$user = DB::getRowData($DB_USERS, '*', 'activationKey', $key);
+
+			if ($user && $user['status'] == VERIFIED)
+				\Helpers\showErrorMessage('Your are already verified');
+			else if ($user)
+			{
+				DB::updateRowData($DB_USERS, 'status', VERIFIED, 'username', $user['username']);
+				\Helpers\showMessage('Your are now verified!');
+			}
+			else
+				\Helpers\showErrorMessage('ERROR: Invalid Activation Key!');
 		}
 	}
 ?>

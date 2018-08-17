@@ -179,3 +179,22 @@ ul {
 .alert--hide {
 	top: -500px;
 }
+
+.btn_verification {
+	color: #888 !important;
+	text-decoration: underline !important;
+	cursor: pointer;
+}
+
+.btn_verification:hover {
+	color: #666 !important;
+}
+
+.dropdown_form {
+	margin-top: 10px;
+	display: none;
+}
+
+.dropdown_form--show {
+	display: block;
+}
