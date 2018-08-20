@@ -15,8 +15,8 @@
 	<?php require ROOT . 'components/views/header.php'; ?>
 
 	<!-- Main content -->
-	<div class="container justify-content-center">
-		<div class="row">
+	<div class="container">
+		<div class="row justify-content-center">
 			<?php require ROOT . 'components/views/' . $contentView . '.php'; ?>
 		</div>
 	</div>
@@ -26,8 +26,6 @@
 	<?php require ROOT . 'components/views/connect_popup.php'; ?>
 
 	<!-- Add some javascript -->
-	<script src="/resources/js/connect_popup.js"></script>
-	<script src="/resources/js/alert_handler.js"></script>
-	<script src="/resources/js/verification_handler.js"></script>
+	<script src="/resources/js/main.js"></script>
 </body>
 </html>

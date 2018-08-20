@@ -180,13 +180,13 @@ ul {
 	top: -500px;
 }
 
-.btn_verification {
+.btn_dropdown {
 	color: #888 !important;
 	text-decoration: underline !important;
 	cursor: pointer;
 }
 
-.btn_verification:hover {
+.btn_dropdown:hover {
 	color: #666 !important;
 }
 

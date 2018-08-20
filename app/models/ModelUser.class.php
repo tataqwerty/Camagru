@@ -37,25 +37,23 @@
 		}
 
 		function sendMail($email, $subject, $message) {
-			$encoding = "utf-8";
 
-			// // Set preferences for Subject field
-			// $subjectPreferences = array(
-			// 	"input-charset" => $encoding,
-			// 	"output-charset" => $encoding,
-			// 	"line-length" => 76,
-			// 	"line-break-chars" => "\r\n"
-			// );
+			$subjectPreferences = [
+				'input-charset' => 'UTF-8',
+				'output-charset' => 'UTF-8',
+				'line-length' => 76,
+				'line-break-chars' => '\r\n'
+			];
 
-			// // Set mail header
-			// $header = "Content-type: text/html; charset=".$encoding." \r\n";
-			// $header .= "From: Camagru admin <tarasik2000@gmail.com> \r\n";
-			// $header .= "MIME-Version: 1.0 \r\n";
-			// $header .= "Content-Transfer-Encoding: 8bit \r\n";
-			// $header .= "Date: ".date("r (T)")." \r\n";
-			// $header .= iconv_mime_encode("Subject", $subject, $subjectPreferences);
+			$header = 'Content-Type: text/html; charset=UTF-8\r\n';
+			$header .= 'From: <tarasik2000@gmail.com>\r\n';
+			$header .= 'Reply-To: tarasik2000@gmail.com';
+			$header .= 'MIME-Version: 1.0\r\n';
+			$header .= 'Content-Transfer-Enconding: 8bit\r\n';
+			$header .= 'Date: ' . date('r (T)') . '\r\n';
+			$header .= iconv_mime_encode('subject', $subject, $subjectPreferences);
 
-			mail($email, $subject, $message);
+			mail($email, $subject, $message, $header);
 		}
 
 		function sendVerificationKey() {
@@ -72,6 +70,7 @@
 				$message = 'Click http://' . $_SERVER['HTTP_HOST'] . '/verify/' . $user['activationKey'] . ' to activate your account!';
 				$this->sendMail($email, $subject, $message);
 				\Helpers\showMessage("Please, check your email to activate your account!");
+				return (1);
 			}
 			else
 				\Helpers\showErrorMessage('ERROR: there are not user with such email!');
@@ -161,6 +160,7 @@
 			else if ($user)
 			{
 				DB::updateRowData($DB_USERS, 'status', VERIFIED, 'username', $user['username']);
+				DB::updateRowData($DB_USERS, 'activationKey', null, 'username', $user['username']);
 				\Helpers\showMessage('Your are now verified!');
 			}
 			else

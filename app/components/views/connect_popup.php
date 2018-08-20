@@ -36,29 +36,44 @@
 											</div>
 										</div>
 									</div>
-									<div class="form-group">
-										<div class="row">
-											<div class="col">
-												<div class="text-center">
-													<a href="/password/reset" class="forgot-password">
-														Forgot Password?
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
 								</form>
-								<!-- VERIFY DROPDOWN HERE -->
 								<div class="dropdown">
 									<div class="row">
 										<div class="col text-center">
-											<a class="btn_verification">
+											<a class="btn_dropdown" data-target="dropdown_form-1">
+												Forgot password?
+											</a>
+										</div>
+									</div>
+									<div class="row dropdown_form" id="dropdown_form-1">
+										<div class="col text-center">
+											<form action="/password/reset" method="POST">
+												<div class="form-group">
+													<div class="row">
+														<div class="col">
+															<input type="email" name="email" class="form-control" placeholder="Email Address" pattern="[a-zA-Z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*" required>
+														</div>
+													</div>
+												</div>
+												<div class="row justify-content-center">
+													<div class="col-6 text-center">
+														<input type="submit" name="submit" class="form-control btn btn-info">
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="dropdown">
+									<div class="row">
+										<div class="col text-center">
+											<a class="btn_dropdown" data-target="dropdown_form-2">
 												Get verification key!
 											</a>
 										</div>
 									</div>
 
-									<div class="row dropdown_form">
+									<div class="row dropdown_form" id="dropdown_form-2">
 										<div class="col text-center">
 											<form action="/verify/repeat" method="POST">
 												<div class="form-group">
@@ -77,7 +92,6 @@
 										</div>
 									</div>
 								</div>
-
 							</div>
 							<div class="popup_form">
 								<form id="register_form" action="/register/index" method="POST">

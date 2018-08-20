@@ -83,7 +83,8 @@
 			$queryCols = implode(',', $arrCols);
 			$queryValues = '?' . str_repeat(',?', count($arrValues) - 1);
 
-			$query = $db->prepare("INSERT INTO ? (" . $queryCols . ") VALUES($queryValues);");
+			$query = $db->prepare("INSERT INTO " . $table . " (" . $queryCols . ") VALUES($queryValues);");
+			$arrValues = array_values($arrValues);
 			$query->execute($arrValues);
 		}
 	}

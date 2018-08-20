@@ -13,7 +13,7 @@
 			`email` varchar(256) NOT NULL,
 			`username` varchar(256) NOT NULL,
 			`password` varchar(256) NOT NULL,
-			`activationKey` char(32) NOT NULL,
+			`activationKey` char(32),
 			`status` char(1)
 		);';
 
