@@ -14,9 +14,7 @@
 
 	<!-- Main content -->
 	<div class="container">
-		<div class="row justify-content-center">
-			<?php require ROOT . 'components/views/' . $contentView . '.php'; ?>
-		</div>
+		<?php require ROOT . 'components/views/' . $contentView . '.php'; ?>
 	</div>
 
 	<?php require ROOT . 'components/views/footer.php'; ?>

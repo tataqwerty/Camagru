@@ -1,5 +1,8 @@
 <?php
 	return [
+		'profile/index' => '/profile/index',
+		'profile/settings' => '/profile/settings',
+		'profile/photo' => '/profile/photo',
 		'login/index' => '/user/login',
 		'logout/index' => '/user/logout',
 		'register/index' => '/user/register',

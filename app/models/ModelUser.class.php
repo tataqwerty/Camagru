@@ -8,11 +8,12 @@
 		static function isLoggedIn() {
 			if (isset($_SESSION['logged_in_user']))
 				return (1);
-			return (0);
+ 			return (0);
 		}
 
 		function logout() {
 			unset($_SESSION['logged_in_user']);
+			\Helpers\showMessage("You're now logged-out!", OK);
 		}
 
 		function login() {
@@ -22,11 +23,11 @@
 			else
 			{
 				$username = strtolower($_POST['username']);
-				$password = $_POST['password'];			// ATTENTION: Needs to be hashed!!!!!!
+				$password = $_POST['password'];
 
 				$user = DB::getRowData($DB_USERS, '*', 'username', $username);
 
-				if ($user && $user['password'] == $password && $user['status'] == VERIFIED)
+				if ($user && password_verify($password, $user['password']) && $user['status'] == VERIFIED)
 				{
 					$_SESSION['logged_in_user'] = $username;
 					\Helpers\showMessage("You're now logged-in!", OK);
@@ -63,7 +64,7 @@
 			$user = DB::getRowData($DB_USERS, 'status, activationKey', 'email', $email);
 
 			if ($user && $user['status'] == VERIFIED)
-				\Helpers\showAjaxMessage('Your are already verified', ERROR);
+				\Helpers\showAjaxMessage('Your are already verified!', ERROR);
 			else if ($user)
 			{
 				$subject = 'Activate your account';
@@ -134,9 +135,13 @@
 			/*
 			** Add user to database + send an verification email to user.
 			*/
-			$this->acceptUser($email, $username, $password);	// PASSWORD NEEDS TO BE HASHED
+			$password = password_hash($password, PASSWORD_BCRYPT);
+			$this->acceptUser($email, $username, $password);
 		}
 
+		/*
+		** This function verifies a user.
+		*/
 		function verify($key) {
 			global $DB_USERS;
 			$user = DB::getRowData($DB_USERS, '*', 'activationKey', $key);
@@ -153,6 +158,9 @@
 				\Helpers\showMessage('ERROR: Invalid Activation Key!', ERROR);
 		}
 
+		/*
+		** This function creates new password for user and send him to hiw email.
+		*/
 		function passwordReset() {
 			global $DB_USERS;
 			$email = (isset($_POST['email'])) ? $_POST['email'] : "";
@@ -169,7 +177,7 @@
 				$message = 'Your new password now is ' . $newPassword . '!';
 				$this->sendMail($email, $subject, $message);
 
-				// $newPassword = hash();
+				$newPassword = password_hash($newPassword, PASSWORD_BCRYPT);
 
 				DB::updateRowData($DB_USERS, 'password', $newPassword, 'email', $email);
 				\Helpers\showAjaxMessage('Check your email to get your new password!', OK);

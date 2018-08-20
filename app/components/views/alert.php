@@ -16,7 +16,7 @@
 			setTimeout(() => {
 				alertHandler.children[0].innerHTML = "";
 				alertHandler.classList.remove('alert--show');
-				alertHandler.classList.remove('alert-' + color);
+				alertHandler.classList.remove('alert-' + "<?php echo $color; ?>");
 			}, 3000);
 		})();
 	</script>
