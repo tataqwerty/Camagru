@@ -18,21 +18,21 @@
 		function login() {
 			global $DB_USERS;
 			if (!isset($_POST['submit']) || !isset($_POST['username']) || !isset($_POST['password']))
-				\Helpers\showErrorMessage('ERROR: Missed some inputs!');
+				\Helpers\showMessage('ERROR: Missed some inputs!', ERROR);
 			else
 			{
 				$username = strtolower($_POST['username']);
-				$password = $_POST['password'];
+				$password = $_POST['password'];			// ATTENTION: Needs to be hashed!!!!!!
 
 				$user = DB::getRowData($DB_USERS, '*', 'username', $username);
 
-				if ($user && $user['password'] == $password && $user['status'] == VERIFIED)	// ATTENTION: Needs to be hashed!!!!!!
+				if ($user && $user['password'] == $password && $user['status'] == VERIFIED)
 				{
 					$_SESSION['logged_in_user'] = $username;
-					\Helpers\showMessage("You're now logged-in!");
+					\Helpers\showMessage("You're now logged-in!", OK);
 				}
 				else
-					\Helpers\showErrorMessage('ERROR: Invalid username or password!');
+					\Helpers\showMessage('ERROR: Invalid username or password!', ERROR);
 			}
 		}
 
@@ -63,17 +63,16 @@
 			$user = DB::getRowData($DB_USERS, 'status, activationKey', 'email', $email);
 
 			if ($user && $user['status'] == VERIFIED)
-				\Helpers\showErrorMessage('Your are already verified');
+				\Helpers\showAjaxMessage('Your are already verified', ERROR);
 			else if ($user)
 			{
 				$subject = 'Activate your account';
 				$message = 'Click http://' . $_SERVER['HTTP_HOST'] . '/verify/' . $user['activationKey'] . ' to activate your account!';
 				$this->sendMail($email, $subject, $message);
-				\Helpers\showMessage("Please, check your email to activate your account!");
-				return (1);
+				\Helpers\showAjaxMessage("Please, check your email to activate your account!", OK);
 			}
 			else
-				\Helpers\showErrorMessage('ERROR: there are not user with such email!');
+				\Helpers\showAjaxMessage('ERROR: there are no user with such email!', ERROR);
 		}
 
 		/*
@@ -93,62 +92,49 @@
 			];
 
 			DB::insertRowData($DB_USERS, $values);
-
-			if ($this->sendVerificationKey())
-				\Helpers\showMessage("Please, check your email to activate your account!");
-			else
-				\Helpers\showErrorMessage('ERROR: there are not user with such email!');
+			$this->sendVerificationKey();
 		}
 
 		function register() {
 			global $DB_USERS;
-			if (!isset($_POST['submit']) || !isset($_POST['username']) || !isset($_POST['email']) || !isset($_POST['password']) || !isset($_POST['confirm-password']))
+			$username = strtolower($_POST['username']);
+			$email = strtolower($_POST['email']);
+			$password = $_POST['password'];
+			$passwordConfirm = $_POST['confirm-password'];
+
+			/*
+			** Check whether certain username is free or not.
+			*/
+			$user = DB::getRowData($DB_USERS, '*', 'username', $username);
+			if ($user)
 			{
-				\Helpers\showErrorMessage('ERROR: Missed some inputs!');
+				\Helpers\showAjaxMessage('ERROR: such user already exists!', ERROR);
 				return (0);
 			}
-			else
+
+			/*
+			** Check whether certain email is free or not.
+			*/
+			$user = DB::getRowData($DB_USERS, '*', 'email', $email);
+			if ($user)
 			{
-				$username = strtolower($_POST['username']);
-				$email = strtolower($_POST['email']);
-				$password = $_POST['password'];
-				$passwordConfirm = $_POST['confirm-password'];
-
-				/*
-				** Check whether certain username is free or not.
-				*/
-				$user = DB::getRowData($DB_USERS, '*', 'username', $username);
-				if ($user)
-				{
-					\Helpers\showErrorMessage('ERROR: such user already exists!');
-					return (0);
-				}
-
-				/*
-				** Check whether certain email is free or not.
-				*/
-				$user = DB::getRowData($DB_USERS, '*', 'email', $email);
-				if ($user)
-				{
-					\Helpers\showErrorMessage('ERROR: such email already exists!');
-					return (0);
-				}
-
-				/*
-				** Check whether passwords are equal.
-				*/
-				if ($password != $passwordConfirm)
-				{
-					\Helpers\showErrorMessage('ERROR: passwords are not equal!');
-					return (0);
-				}
-
-				/*
-				** Add user to database + send an verification email to user.
-				*/
-				$this->acceptUser($email, $username, $password);	// PASSWORD NEEDS TO BE HASHED
-				return (1);
+				\Helpers\showAjaxMessage('ERROR: such email already exists!', ERROR);
+				return (0);
 			}
+
+			/*
+			** Check whether passwords are equal.
+			*/
+			if ($password != $passwordConfirm)
+			{
+				\Helpers\showAjaxMessage('ERROR: passwords are not equal!', ERROR);
+				return (0);
+			}
+
+			/*
+			** Add user to database + send an verification email to user.
+			*/
+			$this->acceptUser($email, $username, $password);	// PASSWORD NEEDS TO BE HASHED
 		}
 
 		function verify($key) {
@@ -156,15 +142,40 @@
 			$user = DB::getRowData($DB_USERS, '*', 'activationKey', $key);
 
 			if ($user && $user['status'] == VERIFIED)
-				\Helpers\showErrorMessage('Your are already verified');
+				\Helpers\showMessage('Your are already verified', ERROR);
 			else if ($user)
 			{
 				DB::updateRowData($DB_USERS, 'status', VERIFIED, 'username', $user['username']);
 				DB::updateRowData($DB_USERS, 'activationKey', null, 'username', $user['username']);
-				\Helpers\showMessage('Your are now verified!');
+				\Helpers\showMessage('Your are now verified!', OK);
 			}
 			else
-				\Helpers\showErrorMessage('ERROR: Invalid Activation Key!');
+				\Helpers\showMessage('ERROR: Invalid Activation Key!', ERROR);
+		}
+
+		function passwordReset() {
+			global $DB_USERS;
+			$email = (isset($_POST['email'])) ? $_POST['email'] : "";
+
+			$email = strtolower($email);
+
+			$user = DB::getRowData($DB_USERS, '*', 'email', $email);
+
+			if ($user)
+			{
+				$newPassword = substr(md5($email . time()), 0, 12);
+
+				$subject = 'Your new password!';
+				$message = 'Your new password now is ' . $newPassword . '!';
+				$this->sendMail($email, $subject, $message);
+
+				// $newPassword = hash();
+
+				DB::updateRowData($DB_USERS, 'password', $newPassword, 'email', $email);
+				\Helpers\showAjaxMessage('Check your email to get your new password!', OK);
+			}
+			else
+				\Helpers\showAjaxMessage('ERROR: invalid email!', ERROR);
 		}
 	}
 ?>

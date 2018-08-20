@@ -40,12 +40,12 @@
 								<div class="dropdown">
 									<div class="row">
 										<div class="col text-center">
-											<a class="btn_dropdown" data-target="dropdown_form-1">
+											<a class="btn_dropdown" data-target="password_reset_form">
 												Forgot password?
 											</a>
 										</div>
 									</div>
-									<div class="row dropdown_form" id="dropdown_form-1">
+									<div class="row dropdown_form" id="password_reset_form">
 										<div class="col text-center">
 											<form action="/password/reset" method="POST">
 												<div class="form-group">
@@ -67,13 +67,13 @@
 								<div class="dropdown">
 									<div class="row">
 										<div class="col text-center">
-											<a class="btn_dropdown" data-target="dropdown_form-2">
+											<a class="btn_dropdown" data-target="verification_form">
 												Get verification key!
 											</a>
 										</div>
 									</div>
 
-									<div class="row dropdown_form" id="dropdown_form-2">
+									<div class="row dropdown_form" id="verification_form">
 										<div class="col text-center">
 											<form action="/verify/repeat" method="POST">
 												<div class="form-group">

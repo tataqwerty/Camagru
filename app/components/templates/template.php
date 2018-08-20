@@ -10,8 +10,6 @@
 	<link rel="stylesheet" href="/resources/styles/style.css">
 </head>
 <body>
-	<?php require ROOT . 'components/views/alert_handler.php'; ?>
-
 	<?php require ROOT . 'components/views/header.php'; ?>
 
 	<!-- Main content -->
@@ -24,6 +22,8 @@
 	<?php require ROOT . 'components/views/footer.php'; ?>
 
 	<?php require ROOT . 'components/views/connect_popup.php'; ?>
+
+	<?php require ROOT . 'components/views/alert.php'; ?>
 
 	<!-- Add some javascript -->
 	<script src="/resources/js/main.js"></script>

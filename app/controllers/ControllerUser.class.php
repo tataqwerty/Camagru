@@ -27,7 +27,6 @@
 		*/
 		function actionRegister() {
 			$this->model->register();
-			\Helpers\redirect('/main/index');
 		}
 
 		/*
@@ -44,10 +43,10 @@
 		*/
 		function actionVerificationRepeat() {
 			$this->model->sendVerificationKey();
-			\Helpers\redirect('/main/index');
 		}
 
 		function actionPasswordReset() {
+			$this->model->passwordReset();
 		}
 	}
 ?>

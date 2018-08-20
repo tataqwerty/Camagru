@@ -36,13 +36,23 @@
 		echo '</pre>';
 	}
 
-	function showErrorMessage($msg) {
-		$_SESSION['alertMsg'] = $msg;
-		$_SESSION['alertColor'] = 'danger';
+	function showMessage($msg, $status) {
+		if ($status == OK)
+			$color = 'success';
+		else
+			$color = 'danger';
+		$_SESSION['alert'] = [
+			'msg' => $msg,
+			'color' => $color
+		];
 	}
 
-	function showMessage($msg) {
-		$_SESSION['alertMsg'] = $msg;
-		$_SESSION['alertColor'] = 'success';
+	function showAjaxMessage($msg, $status) {
+		$color = ($status == OK) ? 'success' : 'danger';
+		$data = [
+			'color' => $color,
+			'msg' => $msg
+		];
+		echo json_encode($data);
 	}
 ?>

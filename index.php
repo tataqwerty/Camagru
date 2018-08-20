@@ -8,6 +8,8 @@
 	define('ROOT', __DIR__ . '/app/');
 	define('VERIFIED', 1);
 	define('UNVERIFIED', 0);
+	define('ERROR', 0);
+	define('OK', 1);
 
 	spl_autoload_register(function($className) {
 		$segments = explode('\\', $className);
