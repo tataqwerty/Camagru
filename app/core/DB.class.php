@@ -15,14 +15,21 @@
 			return ($db);
 		}
 
-		function dataAllData($table, $needleCol) {
+		function getAllData($table, $needleCol, $keyCol = null, $keyValue = null) {
 			$db = DB::connect();
 
-			$query = $db->prepare("SELECT " . $needleCol . " FROM " . $table . ";");
-
-			$response = $query->execute();
+			if ($keyCol && $keyValue)
+			{
+				$query = $db->prepare("SELECT " . $needleCol . " FROM " . $table . "WHERE " . $keyCol . " = :keyValue;");
+				$response = $query->execute([':keyValue' => $keyValue]);
+			}
+			else
+			{
+				$query = $db->prepare("SELECT " . $needleCol . " FROM " . $table . ";");
+				$response = $query->execute();
+			}
 			if ($response)
-				return ($query->fetchAll());
+					return ($query->fetchAll());
 			return (null);
 		}
 

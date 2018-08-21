@@ -2,13 +2,13 @@
 	namespace Models;
 
 	use Core\Model as Model;
-	use Models\ModelUser as ModelUser;
+	use Models\ModelAuth as Auth;
 
 	class ModelPage extends Model {
 		static function getMenu() {
 			// Get list of menus for logged-in and logged-out users.
 			$arrNavs = require ROOT . 'config/nav_data.php';
-			if (ModelUser::isLoggedIn())
+			if (Auth::isLoggedIn())
 				return ($arrNavs['logged-in']);
 			else
 				return ($arrNavs['logged-out']);
