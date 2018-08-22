@@ -61,7 +61,8 @@
 		}
 
 		function getPhotoData() {
-
+			$data = Page::getInitPageData('Photo page');
+			return ($data);
 		}
 	}
 ?>

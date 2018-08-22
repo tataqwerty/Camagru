@@ -15,13 +15,20 @@
 		return ($route);
 	}
 
-	function getCurrentLink() {
-		$currentLink = findRoute(getURI());
-		return ($currentLink);
-	}
-
 	function getURI() {
 		return (trim($_SERVER['REQUEST_URI'], '/'));
+	}
+
+	function getCurrentLink() {
+		$uri = getURI();
+		$currentLink = '/main';
+
+		if (strstr($uri, '/'))
+			$currentLink = '/' . explode('/', $uri)[0];
+		else if (strlen($uri) > 0)
+			$currentLink = '/' . $uri;
+
+		return ($currentLink);
 	}
 
 	function redirect($url) {

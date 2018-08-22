@@ -14,7 +14,6 @@
 
 		function actionProfile($params) {
 			$id = array_shift($params);
-			echo $id;
 			$data = $this->model->getProfileData($id);
 			$this->view->show('view_user_profile', $data);
 		}

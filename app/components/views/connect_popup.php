@@ -124,3 +124,4 @@
 		</div>
 	</div>
 </div>
+<script src="/resources/js/popup.js"></script>

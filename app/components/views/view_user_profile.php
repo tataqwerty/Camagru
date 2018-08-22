@@ -1,3 +1,11 @@
+<?php
+	/*
+	** If user wants to see yourselves page, this header will be displayed.
+	*/
+	if ($_SESSION['user_logged_in'] == $uid)
+		require ROOT . 'components/views/user_header.php';
+?>
+
 <div class="row justify-content-center">
 	<div class="col">
 		<div class="avatar">
@@ -7,25 +15,12 @@
 	<div class="col">
 		<div class="user_info">
 			<p>
-				Username: <?php echo $data['user']['username']; ?>
+				Username: <?php echo $data['user']['name']; ?>
 			</p>
 			<p>
 				Email: <?php echo $data['user']['email']; ?>
 			</p>
 		</div>
-	</div>
-</div>
-<div class="row justify-content-center">
-	<div class="col">
-		<button class="btn btn_info">
-			Profile
-		</button>
-		<button class="btn btn_info">
-			Settings
-		</button>
-		<button class="btn btn_info">
-			Make a photo
-		</button>
 	</div>
 </div>
 <div class="row justify-content-center">
