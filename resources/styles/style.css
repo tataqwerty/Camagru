@@ -200,16 +200,16 @@ ul {
 	display: block;
 }
 
-.superposable {
-	border: 1px solid #000;
-}
-
 .photos .btn {
 	border-radius: 0;
 }
 
-#snap, #upload_img {
+#snap, #upload_img, #camera_btn {
 	border: 2px solid #138496;
+}
+
+.photos_btns {
+	margin-top: 10px;
 }
 
 .photos_btns .p-2 {
@@ -224,4 +224,23 @@ ul {
 #canvas {
 	height: auto;
 	width: 100%;
+}
+
+.superposable_item {
+	position: relative;
+}
+
+.superposable_item_img {
+	width: 75px;
+	margin-left: 20px;
+}
+
+.superposable_item_img img {
+	width: 100%;
+}
+
+.superposable_radio {
+	position: absolute !important;
+	top: 50%;
+	margin-left: 5px !important;
 }

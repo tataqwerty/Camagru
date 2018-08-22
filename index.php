@@ -10,6 +10,8 @@
 	define('UNVERIFIED', 0);
 	define('ERROR', 0);
 	define('OK', 1);
+	define('SUPERPOSABLES', '/data/superposables');
+	define('SUPERPOSABLES_DIR', __DIR__ . SUPERPOSABLES);
 
 	spl_autoload_register(function($className) {
 		$segments = explode('\\', $className);

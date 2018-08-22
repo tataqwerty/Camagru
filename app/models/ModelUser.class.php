@@ -60,8 +60,27 @@
 
 		}
 
+		private function getSuperposables() {
+			$files = scandir(SUPERPOSABLES_DIR);
+
+			if (isset($files))
+			{
+				$files = array_map(function($file) {
+					return SUPERPOSABLES . strrchr($file, '/');
+				}, array_filter(array_map(function($file) {
+					return SUPERPOSABLES_DIR . '/' . $file;
+				}, $files), function($file) {
+					if (is_file($file) && strstr($file, '.png'))
+						return $file;
+				}));
+			}
+
+			return ($files);
+		}
+
 		function getPhotoData() {
 			$data = Page::getInitPageData('Photo page');
+			$data['superposables'] = $this->getSuperposables();
 			return ($data);
 		}
 	}

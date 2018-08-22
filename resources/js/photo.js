@@ -3,7 +3,7 @@
 	{
 		navigator.mediaDevices.getUserMedia({video: true}).then(
 			stream => {
-				var video = document.querySelector('#video');
+				var video = document.querySelector('#video.video');
 				var photoHandler = document.querySelector('#snap');
 				var canvas = document.querySelector('#canvas');
 				var ctx = canvas.getContext('2d');
@@ -57,6 +57,28 @@
 			};
 
 			reader.readAsDataURL(file);
+		}
+	});
+
+	var cameraHandler = document.querySelector('#camera_btn');
+
+	cameraHandler.addEventListener('click', () => {
+		
+	});
+
+
+	var snapHandler = document.querySelector('#snap');
+
+	snapHandler.addEventListener('click', () => {
+
+	});
+
+	var superposables = document.querySelector('.superposable_list');
+
+	superposables.addEventListener('click', e => {
+		if (e.target.classList.contains('superposable_radio'))
+		{
+			snapHandler.disabled = false;
 		}
 	});
 })();

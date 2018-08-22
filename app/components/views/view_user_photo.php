@@ -4,30 +4,45 @@
 	<div class="col-8">
 		<div class="row">
 			<div class="col">
-				<ul class="superposable_list">
-					<?php foreach($superposables as $src): ?>
-						<li class="superposable_item">
-							<img src="<?php echo $src; ?>" class="superposable_item_img">
-						</li>
+				<div class="superposable_list">
+					<?php foreach($superposables as $fileName): ?>
+						<div class="form-check-inline superposable_item disabled">
+							<label class="form-check-label">
+								<input type="radio" class="form-check-input superposable_radio" name="optradio" value="<?php echo $fileName; ?>">
+								<div class="superposable_item_img">
+									<img src="<?php echo $fileName; ?>">
+								</div>
+							</label>
+						</div>
 					<?php endforeach; ?>
-				</ul>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col">
-				<div class="embed-responsive embed-responsive-4by3">
-					<video id="video" class="embed-responsive-item" width="640" height="480" autoplay></video>
 				</div>
 			</div>
 		</div>
 		<div class="d-flex flex-row photos_btns">
 			<div class="p-2">
-				<input id="snap" class="btn btn-info btn-block" value="Snap photo">
+				<input type="button" id="camera_btn" class="btn btn-info btn-block" value="Camera" data-target="#video">
 			</div>
 			<div class="p-2">
 				<label id="upload_img" class="btn btn-info btn-block">
-					Upload file<input type="file" hidden>
+					Upload file<input type="file" data-target="#image" hidden>
 				</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="embed-responsive embed-responsive-4by3">
+					<div id="video">
+						<video class="embed-responsive-item" width="640" height="480" autoplay></video>
+					</div>
+					<div id="image">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<input type="button" id="snap" class="btn btn-info btn-block" value="Snap photo" disabled>
 			</div>
 		</div>
 		<div class="row">
