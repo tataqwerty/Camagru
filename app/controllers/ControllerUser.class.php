@@ -37,5 +37,9 @@
 			$data = $this->model->getPhotoData();
 			$this->view->show('view_user_photo', $data);
 		}
+
+		function actionPhotoMerge() {
+			$this->model->photoMerge();
+		}
 	}
 ?>

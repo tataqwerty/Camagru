@@ -6,6 +6,7 @@
 		'profile/id/(\d+|me)' => '/user/profile/$1',
 		'profile/settings' => '/user/settings',
 		'profile/photo' => '/user/photo',
+		'profile/photo/merge' => '/user/photoMerge',
 		'login/index' => '/auth/login',
 		'login' => '/auth/login',
 		'logout/index' => '/auth/logout',

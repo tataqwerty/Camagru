@@ -204,7 +204,7 @@ ul {
 	border-radius: 0;
 }
 
-#snap, #upload_img, #camera_btn {
+#snap, .photos_btns .btn {
 	border: 2px solid #138496;
 }
 
@@ -212,13 +212,13 @@ ul {
 	margin-top: 10px;
 }
 
+.photos_btns .btn {
+	margin: 0;
+}
+
 .photos_btns .p-2 {
 	padding: 0 !important;
 	width: 50%;
-}
-
-#upload_img {
-	margin: 0;
 }
 
 #canvas {
@@ -243,4 +243,9 @@ ul {
 	position: absolute !important;
 	top: 50%;
 	margin-left: 5px !important;
+}
+
+.src_object img {
+	width: 100%;
+	height: auto;
 }

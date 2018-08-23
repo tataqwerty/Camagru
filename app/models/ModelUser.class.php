@@ -75,13 +75,38 @@
 				}));
 			}
 
-			return ($files);
+			return (array_values($files));
 		}
 
 		function getPhotoData() {
 			$data = Page::getInitPageData('Photo page');
 			$data['superposables'] = $this->getSuperposables();
 			return ($data);
+		}
+
+		// private function decodeImg($img) {
+		// 	$img = str_replace('data:image/png;base64,', '', $img);
+		// 	$img = str_replace(' ', '+', $img);
+		// 	$data = base64_decode($img);
+		// 	file_put_contents('file.png', $data);
+		// 	return $data;
+		// }
+
+		function photoMerge() {
+			if (isset($_FILES['main']) && isset($_FILES['superposable']))
+			{
+				$dest = imagecreatefrompng($_FILES['main']['tmp_name']);
+				// $src = imagecreatefrompng($_FILES['superposable']['tmp_name']);
+
+				// list($srcWidth, $srcHeight) = getimagesize($_FILES['superposable']['tmp_name']);
+
+				// imagecopy($dest, $src, 0, 0, 0, 0, $srcWidth, $srcHeight);
+
+				imagepng($dest, ROOT . '../data/tmp.png');
+
+				imagedestroy($dest);
+				// imagedestroy($src);
+			}
 		}
 	}
 ?>
