@@ -249,3 +249,25 @@ ul {
 	width: 100%;
 	height: auto;
 }
+
+#img_show {
+	width: 100%;
+	height: auto;
+}
+
+.sidebar img {
+	width: 100%;
+	height: auto;
+}
+
+.sidebar .sidebar_elem {
+	width: 50%;
+}
+
+.save_avatar, .save_photo {
+	display: none;
+}
+
+.save_avatar--show, .save_photo--show {
+	display: block;
+}

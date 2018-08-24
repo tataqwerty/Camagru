@@ -7,6 +7,8 @@
 		'profile/settings' => '/user/settings',
 		'profile/photo' => '/user/photo',
 		'profile/photo/merge' => '/user/photoMerge',
+		'profile/photo/sidebar' => '/user/getSidebar',
+		'profile/photo/save' => '/user/saveImage',
 		'login/index' => '/auth/login',
 		'login' => '/auth/login',
 		'logout/index' => '/auth/logout',

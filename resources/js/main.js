@@ -20,7 +20,6 @@
 				xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
 				xhr.onload = (response) => {
-				console.log(response.target.responseText);
 					response = response.target;
 					if (response.status == 200)
 						onSuccess(JSON.parse(response.responseText));
@@ -29,6 +28,23 @@
 				};
 
 				xhr.send(body);
+			});
+		},
+		httpGet: (url) => {
+			return new Promise((onSuccess, onError) => {
+				var xhr = new XMLHttpRequest();
+
+				xhr.open('GET', url);
+
+				xhr.onload = (response) => {
+					response = response.target;
+					if (response.status == 200)
+						onSuccess(JSON.parse(response.responseText));
+					else
+						onError(new Error('Connection error'));
+				};
+
+				xhr.send();
 			});
 		}
 	};

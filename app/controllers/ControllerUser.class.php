@@ -41,5 +41,13 @@
 		function actionPhotoMerge() {
 			$this->model->photoMerge();
 		}
+
+		function actionGetSidebar() {
+			$this->model->getSidebar();
+		}
+
+		function actionSaveImage() {
+			$this->model->saveImage();
+		}
 	}
 ?>

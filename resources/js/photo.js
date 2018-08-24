@@ -7,6 +7,9 @@
 	var canvas = document.getElementById('canvas');
 	var ctx = canvas.getContext('2d');
 	var superposableImg;
+	var sidebar = document.querySelector('.sidebar');
+	var saveAvatarHandler = document.querySelector('.save_avatar');
+	var saveImageHandler = document.querySelector('.save_photo');
 
 	uploadImgHandler.addEventListener('change', () => {
 		var extensions = ['jpg', 'jpeg'];
@@ -79,7 +82,7 @@
 	superposables.addEventListener('click', e => {
 		if (e.target.classList.contains('superposable_radio'))
 		{
-			superposableImg = superposables.querySelector(`img#${e.target.value}`);
+			superposableImg = superposables.querySelector(`img#${e.target.value}`).src;
 
 			if (srcObject.querySelector('.src') != undefined)
 				snapHandler.disabled = false;
@@ -87,7 +90,7 @@
 	});
 
 	function convertToBase64(elem) {
-		ctx.drawImage(elem, 0, 0, 0, 0);
+		ctx.drawImage(elem, 0, 0, 640, 480);
 		return canvas.toDataURL();
 	}
 
@@ -115,47 +118,91 @@
 		return blob;
 	}
 
+	function showSidebar() {
+		sidebar.innerHTML = '';
+		staff.httpGet('/profile/photo/sidebar').then(
+			response => {
+				response.forEach((elem) => {
+					sidebar.innerHTML += `<div class="p-2 sidebar_elem"><img src="${elem}"></div>`;
+				});
+			},
+			error => {
+				console.log(error);
+			});
+	}
+
 	snapHandler.addEventListener('click', () => {
-		var mainImage = convertToBase64(srcObject.querySelector('.src'));
-		var segmentedMainImage = mainImage.split(';');
-		var mainImage_contentType = segmentedMainImage[0].split(':')[1];
-		var mainImage_base64 = segmentedMainImage[1].split(',')[1];
+		var image = convertToBase64(srcObject.querySelector('.src'));
+		var segmentedImage = image.split(';');
+		var image_contentType = segmentedImage[0].split(':')[1];
+		var image_base64 = segmentedImage[1].split(',')[1];
 
-		var mainImage_blob = b64toBlob(mainImage_base64, mainImage_contentType);
-
-		var superposableImage = convertToBase64(superposableImg);
-		var segmentedSuperposableImage = superposableImage.split(';');
-		var superposableImage_contentType = segmentedSuperposableImage[0].split(':')[1];
-		var superposableImage_base64 = segmentedSuperposableImage[1].split(',')[1];
-
-		var superposableImage_blob = b64toBlob(superposableImage_base64, superposableImage_contentType);
+		var image_blob = b64toBlob(image_base64, image_contentType);
 
 		var formData = new FormData();
 
-		formData.append("main", mainImage_blob);
-		formData.append("superposable", superposableImage_blob);
+		formData.append("main", image_blob);
+		formData.append("superposable", superposableImg);
 
+		var xhr = new XMLHttpRequest();
 
-		$.ajax({
-			url:"/profile/photo/merge",
-			data: formData,
-			type:"POST",
-			contentType:false,
-			processData:false,
-			complete:function(response){
-				console.log(response.responseText);
-			}
-		});
+		xhr.open('POST', '/profile/photo/merge');
 
-		// var xhr = new XMLHttpRequest();
+		xhr.onload = (response) => {
+			document.querySelector('#img_show').src = JSON.parse(response.target.response).image;
+			showSidebar();
+		};
 
-		// xhr.open('POST', '/profile/photo/merge');
-
-
-		// xhr.onload = (response) => {
-		// 	console.log(response.target.responseText);
-		// };
-
-		// xhr.send(formData);
+		xhr.send(formData);
 	});
+
+	saveAvatarHandler.addEventListener('click', () => {
+		var image = document.querySelector('#choosed');
+
+		if (image)
+		{
+			image = image.src;
+
+			var body = `image=${image}&avatar=1`;
+
+			staff.httpPost(`/profile/photo/save`, body).then(
+				response => {
+					console.log(response);
+				},
+				error => {
+					console.log(error);
+				});
+		}
+	});
+	saveImageHandler.addEventListener('click', () => {
+		var image = document.querySelector('#choosed');
+
+		if (image)
+		{
+			image = image.src;
+
+			var body = `image=${image}&avatar=0`;
+
+			staff.httpPost(`/profile/photo/save`, body).then(
+				response => {
+					console.log(response);
+				},
+				error => {
+					console.log(error);
+				});
+		}
+	});
+
+	sidebar.addEventListener('click', e => {
+		console.log(e.target);
+		if (e.target.classList.contains('sidebar_elem'))
+		{
+			document.querySelectorAll('.sidebar_elem img').forEach(elem => elem.id = '');
+			e.target.querySelector('img').id = 'choosed';
+			saveImageHandler.classList.add('save_image--show');
+			saveAvatarHandler.classList.add('save_avatar--show');
+		}
+	});
+
+	showSidebar();
 })();

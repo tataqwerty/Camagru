@@ -39,14 +39,26 @@
 				<input type="button" id="snap" class="btn btn-info btn-block" value="Snap photo" disabled>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row" style="display: none;">
 			<div class="col">
 				<canvas id="canvas" width="640" height="480"></canvas>
 			</div>
 		</div>
+		<div class="row">
+			<div class="col">
+				<img id="img_show">
+			</div>
+		</div>
 	</div>
-	<div class="col-4 sidebar">
-
+	<div class="col-4">
+		<div class="d-flex sidebar flex-wrap">
+		</div>
+		<div class="row">
+			<input type="button" class="btn btn-info btn-block save_avatar">
+		</div>
+		<div class="row">
+			<input type="button" class="btn btn-info btn-block save_photo">
+		</div>
 	</div>
 </div>
 <script src="/resources/js/photo.js"></script>

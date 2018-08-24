@@ -84,28 +84,90 @@
 			return ($data);
 		}
 
-		// private function decodeImg($img) {
-		// 	$img = str_replace('data:image/png;base64,', '', $img);
-		// 	$img = str_replace(' ', '+', $img);
-		// 	$data = base64_decode($img);
-		// 	file_put_contents('file.png', $data);
-		// 	return $data;
-		// }
+		function getSidebar() {
+			if (ModelAuth::isLoggedIn())
+			{
+				$files = scandir(ROOT . '../data/tmp/' . $_SESSION['logged_in_user']);
+
+				$files = array_map(function($file) {
+					return '/data/tmp/' . $_SESSION['logged_in_user'] . '/' . $file;
+				}, array_filter($files, function($file) {
+					if (is_file(ROOT . '../data/tmp/' . $_SESSION['logged_in_user'] . '/' . $file) && strstr($file, '.png'))
+						return $file;
+				}));
+
+
+				echo json_encode(array_values($files));
+			}
+		}
+
+		// http://php.net/manual/ru/function.imagecopymerge.php
+		private function imagecopymerge_alpha($dst_im, $src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct) {
+			$cut = imagecreatetruecolor($src_w, $src_h); 
+
+			imagecopy($cut, $dst_im, 0, 0, $dst_x, $dst_y, $src_w, $src_h); 
+
+			imagecopy($cut, $src_im, 0, 0, $src_x, $src_y, $src_w, $src_h); 
+
+			imagecopymerge($dst_im, $cut, $dst_x, $dst_y, 0, 0, $src_w, $src_h, $pct); 
+		}
 
 		function photoMerge() {
-			if (isset($_FILES['main']) && isset($_FILES['superposable']))
+			if (isset($_FILES['main']) && isset($_POST['superposable']))
 			{
-				$dest = imagecreatefrompng($_FILES['main']['tmp_name']);
-				// $src = imagecreatefrompng($_FILES['superposable']['tmp_name']);
+				switch($_FILES['main']['type']) {
+					case 'image/gif':
+						$newImage = imagecreatefromgif($_FILES['main']['tmp_name']);
+						break;
+					case 'image/jpg':
+						$newImage = imagecreatefromjpeg($_FILES['main']['tmp_name']);
+						break;
+					case 'image/png':
+						$newImage = imagecreatefrompng($_FILES['main']['tmp_name']);
+						break;
+				}
 
-				// list($srcWidth, $srcHeight) = getimagesize($_FILES['superposable']['tmp_name']);
+				list($srcWidth, $srcHeight) = getimagesize($_POST['superposable']);
 
-				// imagecopy($dest, $src, 0, 0, 0, 0, $srcWidth, $srcHeight);
+				$superposable = imagecreatefrompng($_POST['superposable']);
 
-				imagepng($dest, ROOT . '../data/tmp.png');
+				$this->imagecopymerge_alpha($newImage, $superposable, 0, 0, 0, 0, $srcWidth, $srcHeight, 100);
 
-				imagedestroy($dest);
-				// imagedestroy($src);
+				$fileDir = '/data/tmp/' . $_SESSION['logged_in_user'];
+				if (!file_exists(ROOT . '..' . $fileDir))
+					mkdir(ROOT . '..' . $fileDir);
+
+				$fi = glob(ROOT . '..' . $fileDir . "/*.*");
+				$i = count($fi);
+				$fileName = '/' . $i . '.png';
+
+				imagepng($newImage, ROOT . '..' . $fileDir . $fileName);
+
+				echo json_encode(['image' => $fileDir . $fileName]);
+			}
+		}
+
+		function saveImage() {
+			global $DB_USERS;
+			global $DB_AVATARS;
+			global $DB_PHOTOS;
+
+			if (ModelAuth::isLoggedIn() && isset($_POST['image']) && isset($_POST['avatar']))
+			{
+				if ($_POST['avatar'] == 1)
+				{
+					if (DB::getRowData($DB_AVATARS, '*', 'uid', $_SESSION['logged_in_user']))
+					{
+						if (file_exists(ROOT . '..' . $_POST['image']))
+							DB::updateRowData($DB_AVATARS, 'path', $_POST['image'], 'uid', $_SESSION['logged_in_user']);
+					}
+					else
+						DB::insertRowData($DB_AVATARS, ['uid' => $_SESSION['logged_in_user'], 'avatar' => $_POST['image']]);
+				}
+				else
+				{
+					DB::insertRowData($DB_PHOTOS, ['uid' => $_SESSION['logged_in_user'], 'likes' => 0, 'comments' => 0, 'src' => $_POST['image']]);
+				}
 			}
 		}
 	}
